@@ -4,7 +4,7 @@ import AcademyScreen from './AcademyScreen';
 import CourseScreen from './CourseScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
-import MenuButton from '../components/MenuButton';
+import MenuButton from '../../components/MenuButton';
 
 
 const ScreenStack = createStackNavigator();

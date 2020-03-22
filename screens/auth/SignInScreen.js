@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Input } from '../components/Input';
+import { Input } from '../../components/Input';
 
 export default class SignInScreen extends Component {
   

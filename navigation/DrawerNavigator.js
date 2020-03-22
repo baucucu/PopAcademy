@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
-import AuthScreenStack from '../screens/AuthScreenStack';
+import AuthScreenStack from '../screens/auth/AuthScreenStack';
 import BottomTabNavigator from './BottomTabNavigator';
 
 const Drawer = createDrawerNavigator();

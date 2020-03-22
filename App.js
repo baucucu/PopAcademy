@@ -10,6 +10,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import DrawerNavigator from './navigation/DrawerNavigator';
 import useLinking from './navigation/useLinking';
 
+import * as firebase from 'firebase';
+import ApiKeys from './constants/ApiKeys.js';
+
 const Stack = createStackNavigator();
 
 
@@ -18,6 +21,7 @@ export default function App(props) {
   const [initialNavigationState, setInitialNavigationState] = React.useState();
   const containerRef = React.useRef();
   const { getInitialState } = useLinking(containerRef);
+
 
   // Load any resources or data that we need prior to rendering the app
   React.useEffect(() => {
@@ -33,6 +37,9 @@ export default function App(props) {
           ...Ionicons.font,
           'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
         });
+        
+
+
       } catch (e) {
         // We might want to provide this error information to an error reporting service
         console.warn(e);
@@ -48,6 +55,9 @@ export default function App(props) {
   if (!isLoadingComplete && !props.skipLoadingScreen) {
     return null;
   } else {
+
+    if(!firebase.app.length) {firebase.initializeApp(ApiKeys.FirebaseConfig);}
+
     return (
       <View style={styles.container}>
         {Platform.OS === 'ios' && <StatusBar barStyle="light-content" />}

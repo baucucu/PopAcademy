@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import TabBarIcon from '../components/TabBarIcon';
-import AcademyScreenStack from '../screens/AcademyScreenStack';
-import CollectionsScreenStack from '../screens/CollectionsScreenStack';
-import SalonScreenStack from '../screens/SalonScreenStack';
-import ShopScreenStack from '../screens/ShopScreenStack';
+import AcademyScreenStack from '../screens/Academy/AcademyScreenStack';
+import CollectionsScreenStack from '../screens/Collection/CollectionsScreenStack';
+import SalonScreenStack from '../screens/Salon/SalonScreenStack';
+import ShopScreenStack from '../screens/Shop/ShopScreenStack';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '../constants/Colors.js';
 
