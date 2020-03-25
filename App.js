@@ -5,20 +5,20 @@ import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { ThemeProvider } from 'react-native-elements';
+import firebase from './screens/auth/firebase.js';
 
-// import BottomTabNavigator from './navigation/BottomTabNavigator';
 import DrawerNavigator from './navigation/DrawerNavigator';
+import RootNavigator from './navigation/RootNavigator'
 import useLinking from './navigation/useLinking';
 
-import * as firebase from 'firebase';
-import ApiKeys from './constants/ApiKeys.js';
-
 const Stack = createStackNavigator();
-
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
   const [initialNavigationState, setInitialNavigationState] = React.useState();
+  const [isAuthenticationReady, setAuthenticationReady] = React.useState(false);
+  const [isAuthenticated, setAuthenticated] = React.useState(false);
   const containerRef = React.useRef();
   const { getInitialState } = useLinking(containerRef);
 
@@ -52,23 +52,37 @@ export default function App(props) {
     loadResourcesAndDataAsync();
   }, []);
 
-  if (!isLoadingComplete && !props.skipLoadingScreen) {
+  if (!isLoadingComplete && !isAuthenticationReady && !props.skipLoadingScreen) {
     return null;
   } else {
-
-    if(!firebase.app.length) {firebase.initializeApp(ApiKeys.FirebaseConfig);}
+    
+    const onAuthStateChanged = (user) => {
+      setAuthenticationReady(true);
+      setAuthenticated(!!user);
+    }
+    
+    firebase.auth().onAuthStateChanged(onAuthStateChanged);
 
     return (
-      <View style={styles.container}>
-        {Platform.OS === 'ios' && <StatusBar barStyle="light-content" />}
-        <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
-          <Stack.Navigator
-            headerMode="none"
-          >
-            <Stack.Screen name="Root" component={DrawerNavigator} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </View>
+      <ThemeProvider>
+        <View style={styles.container}>
+          {Platform.OS === 'ios' && <StatusBar barStyle="light-content" />}
+          {Platform.OS === 'android' && <View style={styles.statusBarUnderlay} />}
+          
+          <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
+            <Stack.Navigator
+              headerMode="none"
+            >
+              {(isAuthenticated) ? 
+                <Stack.Screen name="Drawer" component={ DrawerNavigator} />
+                                :
+                <Stack.Screen name="Root" component={ RootNavigator } />  
+              }
+            </Stack.Navigator>
+          </NavigationContainer>
+        </View>
+      </ThemeProvider>
+      
     );
   }
 }

@@ -1,5 +1,10 @@
-const tintColor = 'white';
+const tintColor = 'ivory';
 const inactiveTintColor = '#555'
+
+const primaryColor = 'ivory'
+const secondaryColor = 'silver'
+const accentColor = 'mediumaquamarine'
+const dangerColor = 'tomato'
 
 export default {
   tintColor,

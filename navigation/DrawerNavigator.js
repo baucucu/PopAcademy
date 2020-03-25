@@ -1,27 +1,34 @@
-import * as React from 'react';
+import React, { Button, View } from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
-import AuthScreenStack from '../screens/auth/AuthScreenStack';
-import BottomTabNavigator from './BottomTabNavigator';
+import MainNavigator from './MainNavigator';
+import CustomDrawerContent from '../components/CustomDrawerContent';
+
+
+const INITIAL_ROUTE_NAME = 'App';
+const routes = {
+    App: {screen: MainNavigator}
+}
+const drawerStyle = {
+    backgroundColor: '#C0C0C0',
+    width: 240,
+};
+const drawerContentOptions = {
+    activeTintColor:'white',
+    activeBackgroundColor: "black",
+    inactiveTintColor: "black"
+}
 
 const Drawer = createDrawerNavigator();
-const INITIAL_ROUTE_NAME = 'App';
 
 export default function DrawerNavigator({navigation, route}) {
     return(
         <Drawer.Navigator
-            drawerStyle={{
-                backgroundColor: '#C0C0C0',
-                width: 240,
-            }}
-            drawerContentOptions={{
-                activeTintColor:'white',
-                activeBackgroundColor: "black",
-                inactiveTintColor: "black"
-            }}
+            drawerContent={props => <CustomDrawerContent {...props}/>}
         >
-            <Drawer.Screen name="App" drawerLabel="Close" component={BottomTabNavigator}/>
-            <Drawer.Screen name="Sign in" component={AuthScreenStack}/>
+            <Drawer.Screen name="App" drawerLabel="App" component={MainNavigator}/>
+            
+
         </Drawer.Navigator>
     )   
 }
