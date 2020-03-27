@@ -13,7 +13,10 @@ export default function SignUpScreen({navigation})  {
       if(password == passwordConfirmation) {
         firebase.auth().createUserWithEmailAndPassword(email,password)
           .then(()=>{
-          
+            let user = firebase.auth().currentUser;
+            user.sendEmailVerification()
+              .then(() => {console.log('verification email sent')})
+              .catch(error => {Alert.alert(error.message)});
           }, (error)=> {
             Alert.alert(error.message);
           });

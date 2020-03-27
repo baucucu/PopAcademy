@@ -6,13 +6,11 @@ import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { ThemeProvider } from 'react-native-elements';
-import firebase from './screens/auth/firebase.js';
+import firebase from './screens/auth/firebase';
 
 import DrawerNavigator from './navigation/DrawerNavigator';
 import RootNavigator from './navigation/RootNavigator'
 import useLinking from './navigation/useLinking';
-
-const Stack = createStackNavigator();
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
@@ -22,9 +20,17 @@ export default function App(props) {
   const containerRef = React.useRef();
   const { getInitialState } = useLinking(containerRef);
 
+  onAuthStateChanged = (user) => {
+    // console.log("user: ", user);
+    setAuthenticationReady(true);
+    setAuthenticated(!!user);
+  }
 
   // Load any resources or data that we need prior to rendering the app
   React.useEffect(() => {
+    
+    firebase.auth().onAuthStateChanged(onAuthStateChanged);
+     
     async function loadResourcesAndDataAsync() {
       try {
         SplashScreen.preventAutoHide();
@@ -48,21 +54,14 @@ export default function App(props) {
         SplashScreen.hide();
       }
     }
-
     loadResourcesAndDataAsync();
   }, []);
 
-  if (!isLoadingComplete && !isAuthenticationReady && !props.skipLoadingScreen) {
+  if (!isLoadingComplete  && !props.skipLoadingScreen) {
     return null;
   } else {
     
-    const onAuthStateChanged = (user) => {
-      setAuthenticationReady(true);
-      setAuthenticated(!!user);
-    }
-    
-    firebase.auth().onAuthStateChanged(onAuthStateChanged);
-
+    const Stack = createStackNavigator();
     return (
       <ThemeProvider>
         <View style={styles.container}>
@@ -73,10 +72,10 @@ export default function App(props) {
             <Stack.Navigator
               headerMode="none"
             >
-              {(isAuthenticated) ? 
-                <Stack.Screen name="Drawer" component={ DrawerNavigator} />
-                                :
+              { !isAuthenticated ?
                 <Stack.Screen name="Root" component={ RootNavigator } />  
+                                :
+                <Stack.Screen name="App" component={ DrawerNavigator } />  
               }
             </Stack.Navigator>
           </NavigationContainer>
