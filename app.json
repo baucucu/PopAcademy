@@ -31,7 +31,7 @@
     },
     "description": "",
     "githubUrl": "https://github.com/baucucu/PopAcademy",
-    "extra" : {
+    "extra": {
       "firebase": {
         "apiKey": "AIzaSyDF1_85pzD0krYEG3npU8Vv9Z8ZAAi7bGU",
         "authDomain": "pop-academy-auth.firebaseapp.com",
@@ -41,11 +41,15 @@
         "messagingSenderId": "267379252410",
         "appId": "1:267379252410:web:f19d099050fb3e39f23683"
       },
-      "facebook" : {
+      "facebook": {
         "appId": "327198074913404"
       },
       "google": {
-        "clientID" : "267379252410-arsvl8nr2969f0lal65p5ugi4bu8j5vi.apps.googleusercontent.com"
+        "clientID": "267379252410-arsvl8nr2969f0lal65p5ugi4bu8j5vi.apps.googleusercontent.com"
+      },
+      "backendless": {
+        "APP_ID": "6DFDD66E-E2D5-2614-FF9F-717855B9A800",
+        "API_KEY": "FD220996-35A9-463D-B844-5BA524D0D919"
       }
     }
   }

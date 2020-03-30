@@ -1,5 +1,5 @@
-const tintColor = 'ivory';
-const inactiveTintColor = '#555'
+const tintColor = 'mediumaquamarine';
+const inactiveTintColor = 'silver'
 
 const primaryColor = 'ivory'
 const secondaryColor = 'silver'

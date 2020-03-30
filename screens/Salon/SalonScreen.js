@@ -1,17 +1,68 @@
 import * as React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Animated,SafeAreaView, ScrollView, StyleSheet,  Text, View,} from 'react-native';
+import PopCard from '../../components/PopCard.js';
+import extractUrl from '../../helper-functions/extractUrl.js'
+import axios from 'axios';
 
-export default function SalonScreen() {
+const url = 'https://alexandruraduca.wixsite.com/popacademy/_functions/api/Echipa';
+
+export default function CollectionsScreen({navigation}) {
+
+  const [isLoading, setLoading] = React.useState(true);
+  const [echipa, setEchipa] = React.useState([]);
+  scrollAnimatedValue = new Animated.Value(0);
+  
+  React.useEffect(() => {
+    
+    async function fetchData() {
+      
+      const result = await axios(url,)
+        .catch(error => console.log(error))
+
+        result.data.items.map((item, index) => {
+          result.data.items[index].uri = extractUrl(item.image)
+        })
+        
+        setEchipa(result.data.items.reverse())
+        setLoading(false)
+    }
+
+    fetchData();
+    
+  }, []);
+
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>This is the Salon Screen</Text>
+      { !isLoading ? 
+        <SafeAreaView >
+          <ScrollView
+            onScroll={Animated.event(
+              [{ nativeEvent: { contentOffset: { y: scrollAnimatedValue }} }],
+            )}
+            scrollEventThrottle={8}
+          >
+            {echipa.map( (echipa, index) => 
+            
+              <PopCard key={index} title={echipa.teamMemberName} uri={echipa.uri} subtitle={echipa.title1} height={360}/>
+
+            )}
+          </ScrollView>
+        </SafeAreaView>
+        
+        : 
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <Text style={styles.text}>Loading Echipa...</Text>
+          <ActivityIndicator size="large" style={{marginTop: 20}}/>
+        </View>
+        
+      }
     </View>
   );
 }
 
-SalonScreen.navigationOptions = {
-  header: null,
-};
+// CollectionsScreen.navigationOptions = {
+//   header: null,
+// };
 
 const styles = StyleSheet.create({
   container: {

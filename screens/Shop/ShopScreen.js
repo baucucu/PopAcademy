@@ -1,20 +1,68 @@
 import * as React from 'react';
-import { StyleSheet, Button, Text, View } from 'react-native';
+import { ActivityIndicator, Animated,SafeAreaView, ScrollView, StyleSheet,  Text, View,} from 'react-native';
+import PopCard from '../../components/PopCard.js';
+import extractUrl from '../../helper-functions/extractUrl.js'
+import axios from 'axios';
 
+const url = 'https://alexandruraduca.wixsite.com/popacademy/_functions/products';
 
+export default function CollectionsScreen({navigation}) {
 
-export default function ShopScreen({navigation}) {
+  const [isLoading, setLoading] = React.useState(true);
+  const [products, setProducts] = React.useState([]);
+  scrollAnimatedValue = new Animated.Value(0);
+  
+  React.useEffect(() => {
+    
+    async function fetchData() {
+      
+      const result = await axios(url,)
+        .catch(error => console.log(error))
+
+        result.data.items.map((item, index) => {
+          result.data.items[index].uri = extractUrl(item.mainMedia)
+        })
+        
+        setProducts(result.data.items)
+        setLoading(false)
+    }
+
+    fetchData();
+    
+  }, []);
+
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>This is the Shop Screen</Text>
-      <Button title="Go to Product Screen" onPress={() => navigation.navigate('Product')}></Button>
+      { !isLoading ? 
+        <SafeAreaView >
+          <ScrollView
+            onScroll={Animated.event(
+              [{ nativeEvent: { contentOffset: { y: scrollAnimatedValue }} }],
+            )}
+            scrollEventThrottle={8}
+          >
+            {products.map( (products, index) => 
+            
+              <PopCard key={index} title={products.name} uri={products.uri} subtitle={products.title1} height={140}/>
+
+            )}
+          </ScrollView>
+        </SafeAreaView>
+        
+        : 
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <Text style={styles.text}>Loading Products...</Text>
+          <ActivityIndicator size="large" style={{marginTop: 20}}/>
+        </View>
+        
+      }
     </View>
   );
 }
 
-ShopScreen.navigationOptions = {
-  header: null,
-};
+// CollectionsScreen.navigationOptions = {
+//   header: null,
+// };
 
 const styles = StyleSheet.create({
   container: {
