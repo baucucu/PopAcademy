@@ -2,6 +2,7 @@ import * as React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import MainNavigator from './MainNavigator';
+import EventsScreen from '../screens/Academy/EventsScreen';
 import CustomDrawerContent from '../components/CustomDrawerContent';
 
 
@@ -25,6 +26,7 @@ export default function DrawerNavigator({navigation, route}) {
             drawerContentOptions={drawerContentOptions}
         >
             <Drawer.Screen name="App" drawerLabel="App" component={MainNavigator}/>
+            <Drawer.Screen name="Cursuri" drawerLabel="Cursuri" component={EventsScreen}/>
             
 
         </Drawer.Navigator>

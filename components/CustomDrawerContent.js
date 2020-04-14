@@ -37,7 +37,7 @@ export default function CustomDrawerContent(props) {
       </View>
       <View style={styles.menu}>
         {/* <Text style={styles.text}>Menu</Text> */}
-        {/* <DrawerItemList {...props} /> */}
+        <DrawerItemList {...props} />
       </View>
       <View style={styles.footer}>
         {/* <Text style={styles.text}>Footer</Text> */}
